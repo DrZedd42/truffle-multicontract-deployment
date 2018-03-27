@@ -1,7 +1,7 @@
 var HDWalletProvider = require("truffle-hdwallet-provider");
 
 var infura_apikey = "XXXXXX";
-var mnemonic = "Insert your Ethereum HD Wallet Pass Phrase here";
+var mnemonic = "INSERT 12 WORD HD WALLET PHRASE IN HERE";
 
 module.exports = {
   networks: {
@@ -13,7 +13,7 @@ module.exports = {
     ropsten: {
       provider: new HDWalletProvider(mnemonic, "https://ropsten.infura.io/"+infura_apikey),
       network_id: 3,
-      gas: 1000000,
+      gas: 4000000,
     }
   }
 };
