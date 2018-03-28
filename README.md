@@ -105,4 +105,43 @@ are still under the same name Contract1 when you may have altered the names of t
 
 Note: The file names such as Contract1.sol,Contract2.sol,and COntract3.sol will have no effect on the names of the contracts when they are compiled, however if it suites your needs feel free to change the names of these files, just remember to keep them in the .sol format.
 
-### Setting Up Deployment Script for Contracts 
+### Setting Up Deployment Script for Contracts
+
+To edit the deployment script for your contract you will need to enter the migration folder and open the file 2_deploy_contracts.js. You will not need to edit 1_initial_migration.js so leave it as is. Once you have opened 2_deploy_contracts.js you will be presented with the code:
+
+```
+var Contract1 = artifacts.require("Contract1");
+var Contract2 = artifacts.require("Contract2");
+var Contract3 = artifacts.require("Contract3");
+
+module.exports = function(deployer) {
+  deployer.deploy(Contract1);
+  deployer.deploy(Contract2);
+  deployer.deploy(Contract3);
+};
+```
+
+This code is designed to deploy the contracts that are listed in the order in which they are listed. At this point if you did not edit the name of the contracts in the contract files previously discussed there is no need to edit this script. However, if the names of the contracts were edited then you will need to edit all instances of your changes to this script. For instance if you edited Contract1 to be named MyFirstToken then you would need to edit the line declaring the variable Contract1 from
+
+```
+var Contract1 = artifacts.require("Contract1");
+```
+to
+```
+var MyFirstToken = artifacts.require("MyFirstToken");
+```
+and the deployer line
+
+```
+deployer.deploy(Contract1);
+```
+to
+```
+deployer.deploy(MyFirstToken);
+```
+
+Remember that on the line declaring the variable, the name of the variable needs to be the same as the name of the artifact in order for it to deploy properly. Also keep in mind that again the name of the token inside each contract has no effect on the deployment of the contract itself. Only insert the name of the contracts you wish to deploy not the tokens (Unless they have the same name).
+
+Note: This script can also be used to deploy more than 3 contracts or less than 3 contracts. In the event you want to deploy less than 3 contracts simply delete the lines declaring the variables and the lines issuing the deployment statement of the contracts you do not wish to deploy. In the event you wish to deploy more than 3 contracts simply add the variable statements and the deployment statements of the extra contracts you wish to deploy.
+
+### Compiling the Contracts Using truffle
