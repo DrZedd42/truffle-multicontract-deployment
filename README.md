@@ -44,3 +44,37 @@ In order to deploy and call a contract you will first need an Ethereum HD Wallet
 This extension will give you an Ethereum wallet, will allow you to generate new addresses, and most importantly allow you to switch between the various Ethereum Networks very easily.
 
 ### Supplying ETH to your Ethereum wallet on the Ropsten Test Network
+
+Now that you have your Ethereum wallet you will need to supply it with Ether in order to provide the gas needed to deploy and call the contracts. The simplest way to get Ether for the Ropsten Test Network is to find a Ether faucet to supply you with free Ether. There are a variety to choose from but the Ropsten Ether Faucet is the most widely used and easiest to find.
+
+* [Ropsten Ether Faucet](http://faucet.ropsten.be:3001/)
+
+To get the Ether simply input your wallet address into the designated area and hit the "Send me 1 test ether!" button. In around a minute your Ether should appear in your wallet.
+
+Note: There are various forums online where people will send each other Test Ether in larger quantities if in the future you need a larger supply. For the purposes of this tutorial 1 Ether is more than enough.
+
+### Setting Up the Smart Contracts
+
+As it stands right now the 3 smart contracts in this repository are ready to be deployed, however this will show you how to change the names, symbols, decimal places, and initial supply of the contracts so you can make them unique to your purposes. This repository will deploy what are called ERC20 Tokens which is a widely used and well established token protocol on the Ethereum Newtork.
+
+To begin go to your truffle-multicontract-deployment folder and then ender the contracts folder. You will see a file names Contract1.sol. Open that file and you should be presented with a code that looks like this:
+
+```
+pragma solidity ^0.4.17;
+
+import 'zeppelin-solidity/contracts/token/ERC20/StandardToken.sol';
+
+contract Contract1 is StandardToken {
+  string public name = 'Contract1';
+  string public symbol = 'CON1';
+  uint8 public decimals = 2;
+  uint public INITIAL_SUPPLY = 1000000;
+  address public owner;
+
+function Contract1() public {
+    totalSupply_ = INITIAL_SUPPLY;
+    balances[msg.sender] = INITIAL_SUPPLY;
+    owner = msg.sender;
+  }
+}
+```
