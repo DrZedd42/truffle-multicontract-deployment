@@ -27,7 +27,7 @@ Install both into same project folder
      shell> cd truffle-multicontract-deployment
      ```
      npm install zeppelin-solidity
-     ```
+
 
 Make sure that the project folder this is saved in is the same folder truffle and geth are located.
 
@@ -44,4 +44,4 @@ In order to deploy and call a contract you will first need an Ethereum HD Wallet
 
 This extension will give you an Ethereum wallet, will allow you to generate new addresses, and most importantly allow you to switch between the various Ethereum Networks very easily.
 
-### Supplying ETH to your Ethereum wallet on the Ropsten Test Network 
+### Supplying ETH to your Ethereum wallet on the Ropsten Test Network
