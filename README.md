@@ -27,7 +27,7 @@ Install both into same project folder
      shell> cd truffle-multicontract-deployment
      npm install zeppelin-solidity
      ```
-     
+
 Make sure that the project folder this is saved in is the same folder truffle and geth are located.
 
 ## Tutorial to Deploy Multiple Contracts at Once Using truffle
@@ -38,8 +38,8 @@ If you are familiar with deploying contracts with Truffle then this should be fa
 
 In order to deploy and call a contract you will first need an Ethereum HD Wallet. This wallet can be provided from any source and can even be generated using your local machine, but for simplicity it is recommended that you install the MetaMask Ethereum Wallet to your local browser.
 
-*[MetaMask for Chrome](https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn)
-*[MetaMask for Firefox](https://addons.mozilla.org/en-US/firefox/addon/ether-metamask/)
+* [MetaMask for Chrome](https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn)
+* [MetaMask for Firefox](https://addons.mozilla.org/en-US/firefox/addon/ether-metamask/)
 
 This extension will give you an Ethereum wallet, will allow you to generate new addresses, and most importantly allow you to switch between the various Ethereum Networks very easily.
 
