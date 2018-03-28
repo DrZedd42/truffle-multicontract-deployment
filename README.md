@@ -25,10 +25,9 @@ Install both into same project folder
 3. Install zeppelin-solidity in the truffle-multicontract-deployment folder
      ```
      shell> cd truffle-multicontract-deployment
-     ```
      npm install zeppelin-solidity
-
-
+     ```
+     
 Make sure that the project folder this is saved in is the same folder truffle and geth are located.
 
 ## Tutorial to Deploy Multiple Contracts at Once Using truffle
