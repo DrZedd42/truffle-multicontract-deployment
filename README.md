@@ -121,7 +121,7 @@ module.exports = function(deployer) {
 };
 ```
 
-This code is designed to deploy the contracts that are listed in the order in which they are listed. At this point if you did not edit the name of the contracts in the contract files previously discussed there is no need to edit this script. However, if the names of the contracts were edited then you will need to edit all instances of your changes to this script. For instance if you edited Contract1 to be named MyFirstToken then you would need to edit the line declaring the variable Contract1 from
+This code is designed to deploy the contracts that are listed in the order in which they are listed. At this point if you did not edit the name of the contracts in the contract files previously discussed there is no need to edit this script. However, if the names of the contracts were edited then you will need to edit all instances of your changes to this script. For instance, if you edited Contract1 to be named MyFirstToken then you would need to edit the line declaring the variable Contract1 from
 
 ```
 var Contract1 = artifacts.require("Contract1");
@@ -144,4 +144,115 @@ Remember that on the line declaring the variable, the name of the variable needs
 
 Note: This script can also be used to deploy more than 3 contracts or less than 3 contracts. In the event you want to deploy less than 3 contracts simply delete the lines declaring the variables and the lines issuing the deployment statement of the contracts you do not wish to deploy. In the event you wish to deploy more than 3 contracts simply add the variable statements and the deployment statements of the extra contracts you wish to deploy.
 
+### Adjusting truffle.js to be able to communicate with your Ethereum Wallet
+
+The file truffle.js can be found immediately when you enter truffle-multicontract-deployment. Open the file and you will be presented with the code:
+
+```
+var HDWalletProvider = require("truffle-hdwallet-provider");
+
+var infura_apikey = "XXXXXX";
+var mnemonic = "INSERT 12 WORD HD WALLET PHRASE IN HERE";
+
+module.exports = {
+  networks: {
+    development: {
+      host: "localhost",
+      port: 8545,
+      network_id: "*" // Match any network id
+    },
+    ropsten: {
+      provider: new HDWalletProvider(mnemonic, "https://ropsten.infura.io/"+infura_apikey),
+      network_id: 3,
+      gas: 4000000,
+    }
+  }
+};
+```
+The only edit that needs to be made to this code is on the third line:
+```
+var mnemonic = "INSERT 12 WORD HD WALLET PHRASE IN HERE";
+```
+When setting up your ethereum wallet you should have been presented with a 12 word phrase of random words. You will need to paste this phrase into the quotations so it will read as follows:
+
+```
+var mnemonic = "word1 word2 word3 word4 word5 word6 word7 word8 word9 word10 word11 word12 ";
+```
+This will grant this program access to your Ethereum wallet and will both deploy and call the contract using this address. Because this passphrase can be used to access your ethereum wallet it is suggested that you do not use this program anywhere but a local machine to prevent others from gaining access to your wallet. For added protection possibly set up a new wallet purely for testing so that you will not have any Ethereum on the Main Net to lose in the event someone were to gain access.
+
+Note: This is the only line that will need to be edited in this script for it to function, however the gas limit can be adjusted to lower the cost. Keep in mind that if the gas limit is too low then you run the risk of the contract not deploying due to the limit being too low.
+
+Note: By default this will access address0 (meaning the first address listed) in your Ethereum wallet. Therefore you will need to make sure that this address is has funds in it to pay for the gas of these contracts. Even if you have other addresses in your wallet with funds this will not pull funds from them in the event address0 has inadequate Ether.
+
 ### Compiling the Contracts Using truffle
+At this point all necessary edits have been made and you can begin the compilation and deployment of the contracts. To compile the contracts you will will need to open your terminal and go to your truffle-multicontract-deployment folder. Once there type in the command:
+
+```
+truffle compile
+```
+And provided there are no errors with in a few moments the contracts you have created will be compiled with this messaged displayed in your terminal:
+
+```
+Compiling ./contracts/Contract1.sol...
+Compiling ./contracts/Contract2.sol...
+Compiling ./contracts/Contract3.sol...
+Compiling ./contracts/Migrations.sol...
+Compiling zeppelin-solidity/contracts/math/SafeMath.sol...
+Compiling zeppelin-solidity/contracts/token/ERC20/BasicToken.sol...
+Compiling zeppelin-solidity/contracts/token/ERC20/ERC20.sol...
+Compiling zeppelin-solidity/contracts/token/ERC20/ERC20Basic.sol...
+Compiling zeppelin-solidity/contracts/token/ERC20/StandardToken.sol...
+Writing artifacts to ./build/contracts
+```
+You may notice that this will create a new folder in truffle-multicontract-deployment named build. When opening the build folder there will be another folder named contracts inside of this. Contained in this folder are a variety of standard contracts that were compiled by truffle as well as the contracts that you have created yourself. Notice that the file name for these contracts is dependent on the name you gave the contract in your file and not dependent on the name of the file that contract is contained in the .sol file that you edited. Feel free to open these compiled contracts and view the code that will construct them when you deploy. No editing should be made to these contracts as it would jeopardize the stability of them, however if you want to see how they are constructed look through them.
+
+### Launching geth to deploy a node onto the Ethereum Test Netowk
+
+At this point you will need to open a new command terminal. Once the terminal is open simply put in the command:
+
+```
+geth --testnet --fast --rpc --rpcapi eth,net,web3,personal
+```
+Your geth node should begin running and you will see an entire slew of continuous statments which are declaring the hashes of the test network you are not apart of. This command is technically outside of the scope of this tutorial as you only need the testnet and rpc command in geth for it to function properly. However, this command will "cover all your bases" in terms of the functionality of the of this geth node.
+
+### (Finally) Deploying the Contracts onto the Ropsten Test Network
+
+Now that you have your contracts compiled and your geth node operational, you can finally deploy your contracts to the Ropsten Test Network. You will need to be in the terminal that is located inside of the truffle-multicontract-deployment. Simply type in this command and the deployment should begin.
+
+```
+truffle migrate --network ropsten
+```
+And viola, your contracts will begin to deploy. This process can take several minutes to complete depending on the number of contracts you have queued, but when the process is complete you should have a statement that reads something similar to:
+
+```
+Using network 'ropsten'.
+
+Running migration: 1_initial_migration.js
+  Deploying Migrations...
+  ... 0x44b59c69d2010b7864475788fe48c2ca87cc552fac6242a36604abe9d566addf
+  Migrations: 0xec05e5ccdaaf65fadaf503ebfd91a922557b9403
+Saving successful migration to network...
+  ... 0x9f27ca60e3247372353f25104426594395da31dd6953d2ce9ea4b851ad92898e
+Saving artifacts...
+Running migration: 2_deploy_contracts.js
+  Deploying Contract1...
+  ... 0xef4b318c7cfa3760713312cdda878136478046db78e48a5b550a2cd36e1c29ec
+  Contract1: 0x7daedbd1d5ce0f3c8e2c5c6a15dadb05eb1d30c8
+  Deploying Contract2...
+  ... 0x6cffedb7410a914513c95430cac4dc51bb033aeb0a88d0274efdb9cfe6bb585f
+  Contract2: 0x059d018f44dd5ef443e2a16d4e54079629a8d821
+  Deploying Contract3...
+  ... 0x606feb95cfa5972994fc71d1f18782e065044496860678badc3c8816d0801f94
+  Contract3: 0xd5dff2e671443afa0a9a963f74b3c6b0179bb4d1
+Saving successful migration to network...
+  ... 0x319bdeec7b9beb4fb6630967fb36aa9dd806ec62974e929953b89e91beba1e4b
+Saving artifacts...
+```
+If you received this message that indicates that all 3 contracts were successfully deployed to the Ropsten Test Network, and the tokens should have been issued to the wallet address you were using. Notice after each statement declaring that a contract was deployed there is a message that will look something like this for each contract"
+
+```
+Contract1: 0x7daedbd1d5ce0f3c8e2c5c6a15dadb05eb1d30c8
+```
+This is the ID associated with the contract and can be used to find the contract on places such as [Etherscan](https://ropsten.etherscan.io/) for the Ropsten Test Network.
+
+This concludes the tutorial to deploy ERC20 Tokens to the Ropsten Test Network. I hope this guide was helpful for you to understand and successfully deploy these tokens.
