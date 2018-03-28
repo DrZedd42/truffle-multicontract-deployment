@@ -78,3 +78,31 @@ function Contract1() public {
   }
 }
 ```
+
+When viewing Contract2 and Contract3 in this file you will notice that they are exactly the same code other than the name changes applied to fit the contract name. To edit the features of the token focus on these 4 lines of code:
+
+```
+string public name = 'Contract1';
+string public symbol = 'CON1';
+uint8 public decimals = 2;
+uint public INITIAL_SUPPLY = 1000000;
+```
+In its current format when this token deploys, the token will have the name Contract1, the symbol will be CON1, the number of decimal places each token will have is up to 2, and the total supply of the tokens will be 10,000. You may notice that the line indicating the initial supply is listed as 100,000 and not 10,000. This is because the number of decimal places a token is given will effect the amount supplied when the contract is deployed, meaning the option for the total number of coins supplied needs to be adjusted for the number of decimal places you desire for your token.
+
+Once you have changed these values to the appropriate names and values for your token you can then proceed to the other contracts and adjust them to meet whatever features you prefer.
+
+You may have noticed that at this point the two lines of code:
+
+```
+contract Contract1 is StandardToken {
+```
+and
+```
+function Contract1() public {
+```
+
+are still under the same name Contract1 when you may have altered the names of the token inside of the code. It is important to distinguish between the name of the contract and the name of the token in this situation. This will have no effect on the deployment of this contract or the name and parameters you have set up for the token. Though the name of the contract is Contract1 the name of the tokens associated with that contract have no correlation with the contract name. However, it is recommended that you changed the name of the contract to indicate the name of the token it is deploying in order for you to keep track of which contract contains witch token.
+
+Note: The file names such as Contract1.sol,Contract2.sol,and COntract3.sol will have no effect on the names of the contracts when they are compiled, however if it suites your needs feel free to change the names of these files, just remember to keep them in the .sol format.
+
+### Setting Up Deployment Script for Contracts 
