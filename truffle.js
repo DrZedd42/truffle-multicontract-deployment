@@ -1,6 +1,5 @@
 var HDWalletProvider = require("truffle-hdwallet-provider");
 
-var infura_apikey = "XXXXXX";
 var mnemonic = "INSERT 12 WORD HD WALLET PHRASE IN HERE";
 
 module.exports = {
@@ -11,7 +10,7 @@ module.exports = {
       network_id: "*" // Match any network id
     },
     ropsten: {
-      provider: new HDWalletProvider(mnemonic, "https://ropsten.infura.io/"+infura_apikey),
+      provider: new HDWalletProvider(mnemonic, "https://ropsten.infura.io/"),
       network_id: 3,
       gas: 4000000,
     }
